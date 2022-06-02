@@ -1,6 +1,8 @@
 package org.ual.hmis.testSelenium;
 import org.junit.Test;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 import org.junit.After;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,56 +24,26 @@ import org.openqa.selenium.Keys;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-public class TodoListAppSuiteTest {
-	private WebDriver driver;
-	  private Map<String, Object> vars;
-	  private int browser= 0;
-	  JavascriptExecutor js;
-	  @Before
-	  public void setUp() {
-		  switch (browser) {
-		    case 0:  // firefox
-		    	// Firefox
-		    	// Descargar geckodriver de https://github.com/mozilla/geckodriver/releases
-		    	// Descomprimir el archivo geckodriver.exe en la carpeta drivers
-		    	
-//		    	System.setProperty("webdriver.gecko.driver",  "drivers/geckodriver.exe"); //HAY QUE COMENTAR ESTO EN JENKINS
-		    	driver = new FirefoxDriver();
-		    	break;
-		    case 1: // chrome
-		    	// Chrome
-		    	// Descargar Chromedriver de https://chromedriver.chromium.org/downloads
-		    	// Descomprimir el archivo chromedriver.exe en la carpeta drivers
 
-//		    	System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe"); //HAY QUE COMENTAR ESTO EN JENKINS
-		    	driver = new ChromeDriver();
-		    	break;
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class TodoListAppSuiteTest  {
+  private WebDriver driver;
+  private Map<String, Object> vars;
+  JavascriptExecutor js;
+  @Before
+	public void setUp() {
+//		System.setProperty("webdriver.gecko.driver", "drivers/geckodriver.exe"); // HAY QUE COMENTAR ESTO EN JENKINS
+		driver = new FirefoxDriver();
+		js = (JavascriptExecutor) driver;
+		vars = new HashMap<String, Object>();
 
-		    default:
-		    	fail("Please select a browser");
-		    	break;
-		    }
-
-		//Chrome
-//	    driver = new ChromeDriver();
-//	    ChromeOptions chromeOptions = new ChromeOptions();
-//	    chromeOptions.setHeadless(true);
-//	    driver = new ChromeDriver(chromeOptions);
-	    
-	    //Firefox
-//	    driver = new FirefoxDriver();
-//	    FirefoxOptions firefoxOptions = new FirefoxOptions();
-//	    firefoxOptions.setHeadless(true);
-//	    driver = new FirefoxDriver(firefoxOptions);
-	    js = (JavascriptExecutor) driver;
-	    vars = new HashMap<String, Object>();
-	  }
+	}
   @After
   public void tearDown() {
     driver.quit();
   }
   @Test
-  public void testCrearTarea() {
+  public void T1testCrearTarea() {
     // Test name: TestCrearTarea
     // Step # | name | target | value
     // 1 | open | / | 
@@ -97,7 +69,7 @@ public class TodoListAppSuiteTest {
     }
   }
   @Test
-  public void testCrearTareaCasoIncorrecto() {
+  public void T2testCrearTareaCasoIncorrecto() {
     // Test name: TestCrearTareaCasoIncorrecto
     // Step # | name | target | value
     // 1 | open | / | 
@@ -115,7 +87,7 @@ public class TodoListAppSuiteTest {
     }
   }
   @Test
-  public void testListarTarea() {
+  public void T3testListarTarea() {
     // Test name: TestListarTarea
     // Step # | name | target | value
     // 1 | open | / | 
@@ -127,7 +99,7 @@ public class TodoListAppSuiteTest {
     }
   }
   @Test
-  public void testListarTareaInexistente() {
+  public void T4estListarTareaInexistente() {
     // Test name: TestListarTareaInexistente
     // Step # | name | target | value
     // 1 | open | / | 
@@ -139,7 +111,7 @@ public class TodoListAppSuiteTest {
     }
   }
   @Test
-  public void editarTareaCasoBackToList() {
+  public void T5editarTareaCasoBackToList() {
     // Test name: EditarTareaCasoBackToList
     // Step # | name | target | value
     // 1 | open | / | 
@@ -157,7 +129,7 @@ public class TodoListAppSuiteTest {
     }
   }
   @Test
-  public void editarTareaCasoCorrecto() {
+  public void T6editarTareaCasoCorrecto() {
     // Test name: EditarTareaCasoCorrecto
     // Step # | name | target | value
     // 1 | open | / | 
@@ -167,7 +139,7 @@ public class TodoListAppSuiteTest {
     // 3 | click | linkText=Edit | 
     driver.findElement(By.linkText("Edit")).click();
     // 4 | click | css=.col-md-4 | 
-    driver.findElement(By.cssSelector(".col-md-4")).click();
+//    driver.findElement(By.cssSelector(".col-md-4")).click();
     // 5 | type | id=Description | Tarea2
     driver.findElement(By.id("Description")).sendKeys("Tarea2");
     // 6 | click | id=CreatedDate | 
@@ -178,12 +150,12 @@ public class TodoListAppSuiteTest {
     driver.findElement(By.cssSelector(".btn")).click();
     // 9 | assertElementPresent | //td[normalize-space(text()) = 'Tarea2'] | 
     {
-      List<WebElement> elements = driver.findElements(By.xpath("//td[normalize-space(text()) = \'Tarea2\']"));
+      List<WebElement> elements = driver.findElements(By.xpath("//td[normalize-space(text()) = 'Tarea1Tarea2']"));
       assert(elements.size() > 0);
     }
   }
   @Test
-  public void testEliminarTareaBackToList() {
+  public void T7testEliminarTareaBackToList() {
     // Test name: TestEliminarTareaBackToList
     // Step # | name | target | value
     // 1 | open | / | 
@@ -196,12 +168,12 @@ public class TodoListAppSuiteTest {
     driver.findElement(By.linkText("Back to List")).click();
     // 5 | assertElementPresent | //td[normalize-space(text()) = "Tarea2"] | 
     {
-      List<WebElement> elements = driver.findElements(By.xpath("//td[normalize-space(text()) = \"Tarea2\"]"));
+      List<WebElement> elements = driver.findElements(By.xpath("//td[normalize-space(text()) = 'Tarea1Tarea2']"));
       assert(elements.size() > 0);
     }
   }
   @Test
-  public void testEliminarTarea() {
+  public void T8testEliminarTarea() {
     // Test name: TestEliminarTarea
     // Step # | name | target | value
     // 1 | open | / | 
@@ -214,7 +186,7 @@ public class TodoListAppSuiteTest {
     driver.findElement(By.cssSelector(".btn")).click();
     // 5 | assertElementNotPresent | //td[normalize-space(text()) = "Tarea2"] | 
     {
-      List<WebElement> elements = driver.findElements(By.xpath("//td[normalize-space(text()) = \"Tarea2\"]"));
+      List<WebElement> elements = driver.findElements(By.xpath("//td[normalize-space(text()) = \"Tarea1Tarea2\"]"));
       assert(elements.size() == 0);
     }
   }
